@@ -1,0 +1,33 @@
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]': # Applies CORS settings globally
+            allowedOrigins: "http://localhost:3000"  # Allow frontend to make requests
+            allowedMethods: [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ]  # Allowed methods
+            allowedHeaders: [ "*" ]  # Allow all headers
+            allowCredentials: true  # Allows cookies, authorization headers etc.
+            maxAge: 3600  # How long the response should be cached
+      routes:
+        - id: user-management
+          uri: http://localhost:8081  # Assume User-Management runs on port 8081
+          predicates:
+            - Path=/api/users/**  # Route all requests starting with /api/users
+        - id: language-management
+          uri: http://localhost:8082  # Assume Language-Management runs on port 8082
+          predicates:
+            - Path=/api/languages/**  # Route all requests starting with /api/languages
+logging:
+  level:
+    org.springframework.web: TRACE
+    org.springframework.cloud.gateway: TRACE
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'gateway,health,info,routes'
+  endpoint:
+    gateway:
+      enabled: true
