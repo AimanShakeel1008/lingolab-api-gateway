@@ -11,11 +11,11 @@ spring:
             maxAge: 3600  # How long the response should be cached
       routes:
         - id: user-management
-          uri: http://localhost:8081  # Assume User-Management runs on port 8081
+          uri: http://host.docker.internal:8081  # Assume User-Management runs on port 8081
           predicates:
             - Path=/api/users/**  # Route all requests starting with /api/users
         - id: language-management
-          uri: http://localhost:8082  # Assume Language-Management runs on port 8082
+          uri: http://host.docker.internal:8082  # Assume Language-Management runs on port 8082
           predicates:
             - Path=/api/languages/**  # Route all requests starting with /api/languages
 logging:
